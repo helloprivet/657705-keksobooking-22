@@ -14,7 +14,7 @@ const getRandomNumber = (min, max) => {
 
 const getRandomFloat = (min, max, digits) => {
   if (min >= 0 && min < max) {
-    return +(Math.random() * (max - min + 1) + min).toFixed(digits);
+    return +(Math.random() * (max - min) + min).toFixed(digits);
   }
 
   return false;
