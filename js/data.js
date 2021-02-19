@@ -1,9 +1,15 @@
 'use strict';
 
-import {getRandomNumber, getRandomFloat, getRandomArrayElement, getRandomUniqueArray, getRandomArray} from './utils.js';
+import {
+  getRandomNumber,
+  getRandomFloat,
+  getRandomArrayElement,
+  getRandomUniqueArray,
+  getRandomArray
+} from './utils.js';
 
 const AUTHOR_AVATAR = {
-  url: 'mg/avatars/user0',
+  url: 'img/avatars/user0',
   pictureFormat: '.png',
 };
 
@@ -25,12 +31,12 @@ const OFFERS_DESCRIPTIONS = [
   'Бесплатный WiFi',
 ];
 
-const OFFERS_TYPES = [
-  'palace',
-  'flat',
-  'house ',
-  'bungalow',
-];
+const OFFERS_TYPES = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+};
 
 const OFFERS_CHECKIN_CHECKOUT = [
   '12:00',
@@ -63,12 +69,14 @@ const Y = {
   max: 139.80000,
 };
 
+// Создание одного объявления
+
 const createOffer = () => {
   const AVATAR = AUTHOR_AVATAR.url + getRandomNumber(1, 8).toString() + AUTHOR_AVATAR.pictureFormat;
 
   const OFFER_TITLE = getRandomArrayElement(OFFERS_TITLES);
   const OFFER_PRICE = getRandomNumber(1, 100000);
-  const OFFER_TYPE = getRandomArrayElement(OFFERS_TYPES);
+  const OFFER_TYPE = getRandomArrayElement(Object.keys(OFFERS_TYPES));
   const OFFER_ROOMS = getRandomNumber(1, 5);
   const OFFER_GUESTS = getRandomNumber(1, 5);
   const OFFER_CHECKIN = getRandomArrayElement(OFFERS_CHECKIN_CHECKOUT);
@@ -105,4 +113,21 @@ const createOffer = () => {
   };
 };
 
-export {createOffer};
+// Создание массива похожих объявлений
+
+const createSimilarOffers = (count) => {
+  return new Array(count).fill(null).map(() => createOffer());
+};
+
+// Перевод типа объявления
+
+const getTypeTranslate = (type) => {
+  const isTypeExist = Object.keys(OFFERS_TYPES).some((value) => {
+    return value === type;
+  });
+
+  return isTypeExist ? OFFERS_TYPES[type] : false;
+};
+
+
+export {createOffer, createSimilarOffers, getTypeTranslate};
