@@ -1,4 +1,5 @@
 'use strict';
 
+import './page-init.js';
 import './offers-list.js';
-import './user-form.js';
+import './form-data.js';
