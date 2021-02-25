@@ -1,3 +1,4 @@
+/* global L:readonly */
 'use strict';
 
 import {map} from './page-init.js';
