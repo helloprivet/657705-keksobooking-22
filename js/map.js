@@ -1,3 +1,4 @@
+/* global L:readonly */
 'use strict';
 
 const mapInit = (canvas) => {
