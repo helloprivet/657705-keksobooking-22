@@ -1,9 +1,10 @@
 /* global L:readonly */
-'use strict';
 
 import {map} from './page-init.js';
 import {createMarker} from './map.js';
 import {validation} from './validation.js';
+import {sendData} from './data.js';
+import {successEvents} from './popup-messages.js';
 
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
@@ -91,6 +92,22 @@ const changeCapacityNumber = (evt) => {
   }
 };
 
+const sendUserFormData = (url, onSuccess, onFail) => {
+  userForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      url,
+      () => {
+        onSuccess();
+        successEvents();
+      },
+      () => onFail(),
+      new FormData(evt.target),
+    );
+  });
+};
+
 mainPin.on('moveend', changeAddress);
 userFormType.addEventListener('change', changeTypePrice);
 userFormPrice.addEventListener('focus', validation(priceValidRules));
@@ -100,3 +117,5 @@ userFormTimeout.addEventListener('change', changeTimeInOut);
 userFormTitle.addEventListener('focus', validation(titleValidRules));
 userFormTitle.addEventListener('input', validation(titleValidRules));
 userFormRoomNumber.addEventListener('change', changeCapacityNumber);
+
+export {sendUserFormData};
