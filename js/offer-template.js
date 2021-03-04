@@ -1,10 +1,21 @@
 'use strict';
 
-import {getTypeTranslate} from './data.js';
-
 const offerTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
+
+const OFFERS_TYPES = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+};
+
+const getTypeTranslate = (type) => {
+  return Object.keys(OFFERS_TYPES).some((value) => {
+    return value === type;
+  });
+};
 
 const createOfferTemplate = (obj) => {
   const offerElement = offerTemplate.cloneNode(true);
@@ -13,7 +24,7 @@ const createOfferTemplate = (obj) => {
   offerElement.querySelector('.popup__title').textContent = offer.title;
   offerElement.querySelector('.popup__text--address').textContent = offer.address;
   offerElement.querySelector('.popup__text--price').firstChild.textContent = offer.price + ' ';
-  offerElement.querySelector('.popup__type').textContent = getTypeTranslate(offer.type);
+  offerElement.querySelector('.popup__type').textContent = getTypeTranslate(offer.type) ? OFFERS_TYPES[offer.type] : '';
   offerElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   offerElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   offerElement.querySelector('.popup__description').textContent = offer.description;

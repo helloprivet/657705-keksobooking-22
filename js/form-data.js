@@ -1,15 +1,20 @@
 /* global L:readonly */
-'use strict';
 
 import {map} from './page-init.js';
 import {createMarker} from './map.js';
 import {validation} from './validation.js';
+import {sendData} from './data.js';
 
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
   iconSize: [56, 56],
   iconAnchor: [28, 56],
 });
+
+const tokyoCoordinates = {
+  lat: 35.65283,
+  lng: 139.83947,
+};
 
 const typeMinPrice = {
   bungalow: 0,
@@ -42,11 +47,16 @@ const userFormRoomNumber = userForm.querySelector('#room_number');
 const userFormCapacity = userForm.querySelector('#capacity');
 const userFormCapacityOption = userFormCapacity.querySelectorAll('option');
 
-const mainPin = createMarker(35.65283, 139.83947, true, mainPinIcon).addTo(map);
+const userFormResetBtn = userForm.querySelector('.ad-form__reset');
+const userMapFilters = document.querySelector('.map__filters');
 
-const changeAddress = (evt) => {
-  const {lat, lng} = evt.target.getLatLng();
-  userFormAddress.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+const mainPin = createMarker(tokyoCoordinates['lat'], tokyoCoordinates['lng'], true, mainPinIcon).addTo(map);
+
+const changeAddress = (mainPin) => {
+  return () => {
+    const {lat, lng} = mainPin.getLatLng();
+    userFormAddress.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  };
 };
 
 const changeTypePrice = (evt) => {
@@ -91,7 +101,38 @@ const changeCapacityNumber = (evt) => {
   }
 };
 
-mainPin.on('moveend', changeAddress);
+const defaultInputs = (evt = false) => {
+  if (evt) {
+    evt.preventDefault();
+  }
+
+  userForm.reset();
+  userMapFilters.reset();
+  mainPin.setLatLng({
+    lat: tokyoCoordinates['lat'],
+    lng: tokyoCoordinates['lng'],
+  });
+
+  changeAddress(mainPin)();
+};
+
+const sendUserFormData = (url, popupMessage, onFail) => {
+  userForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      url,
+      (responsStatus) => {
+        popupMessage(responsStatus);
+      },
+      () => onFail('Ошибка сервера'),
+      new FormData(evt.target),
+      defaultInputs,
+    );
+  });
+};
+
+mainPin.on('moveend', changeAddress(mainPin));
 userFormType.addEventListener('change', changeTypePrice);
 userFormPrice.addEventListener('focus', validation(priceValidRules));
 userFormPrice.addEventListener('input', validation(priceValidRules));
@@ -100,3 +141,6 @@ userFormTimeout.addEventListener('change', changeTimeInOut);
 userFormTitle.addEventListener('focus', validation(titleValidRules));
 userFormTitle.addEventListener('input', validation(titleValidRules));
 userFormRoomNumber.addEventListener('change', changeCapacityNumber);
+userFormResetBtn.addEventListener('click', defaultInputs);
+
+export {sendUserFormData};

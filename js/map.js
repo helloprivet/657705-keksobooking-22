@@ -29,7 +29,3 @@ const createMarker = (lat, lng, draggable = false, icon) => {
 }
 
 export {mapInit, createMarker};
-
-// marker.on('moveend', (evt) => {
-//   console.dir(evt.target.getLatLng());
-// });

@@ -1,59 +1,50 @@
-'use strict';
+const successTemplate = document.querySelector('#success')
+  .content
+  .querySelector('.success');
 
-// Случайное число из диапазона (min и max включительно)
+const errorTemplate = document.querySelector('#error')
+  .content
+  .querySelector('.error');
 
-const getRandomNumber = (min, max) => {
-  if (min >= 0 && min < max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+const showAlert = (message) => {
+  const ALERT_SHOW_TIME = 5000;
+  const alertContainer = document.createElement('div');
 
-  return false;
+  alertContainer.style.zIndex = 100;
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = 0;
+  alertContainer.style.top = 0;
+  alertContainer.style.right = 0;
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
 };
 
-// Случайное число c плавающей точкой из диапазона (min и max включительно)
+const showSuccessMessage = () => {
+  const templateClone = successTemplate.cloneNode(true);
+  const main = document.querySelector('main');
 
-const getRandomFloat = (min, max, digits = 1) => {
-  if (min >= 0 && min < max) {
-    return +(Math.random() * (max - min) + min).toFixed(digits);
-  }
+  main.appendChild(templateClone);
 
-  return false;
+  return templateClone;
 };
 
-// Случайный элемент массива
+const showErrorMessage = () => {
+  const templateClone = errorTemplate.cloneNode(true);
+  const main = document.querySelector('main');
 
-const getRandomArrayElement = (array) => {
-  return array[getRandomNumber(0, array.length - 1)];
+  main.appendChild(templateClone);
+
+  return templateClone;
 };
 
-// Массив случайной длины из значений. Значения не должны повторяться.
-
-const getRandomUniqueArray = (array) => {
-  const arrayLength = getRandomNumber(1, array.length);
-  const newArray = [getRandomArrayElement(array)];
-
-  for (let i = 1; i < arrayLength; i++) {
-    const item = getRandomArrayElement(array);
-    const isEveryElementUnique = newArray.every((value) => {
-      return value !== item;
-    });
-
-    if (isEveryElementUnique) {
-      newArray[i] = item;
-    } else {
-      i--;
-    }
-  }
-
-  return newArray;
-};
-
-// Массив случайной длины из значений
-
-const getRandomArray = (array) => {
-  return new Array(getRandomNumber(1, 5)).fill(null).map(() => {
-    return getRandomArrayElement(array);
-  });
-};
-
-export {getRandomNumber, getRandomFloat, getRandomArrayElement, getRandomUniqueArray, getRandomArray};
+export {showAlert, showSuccessMessage, showErrorMessage};
