@@ -1,13 +1,16 @@
+import {showSuccessMessage, showErrorMessage} from './utils.js';
+
 const main = document.querySelector('main');
 
 const isEscEvent = (evt) => {
   return evt.key === 'Escape' || evt.key === 'Esc';
 };
 
-const closePopup = (element) => {
+const closePopup = (messageElement) => {
   return () => {
-    main.removeChild(element);
-    document.removeEventListener('keydown', popupEscKeydown(element));
+    if (main.querySelector('.' + messageElement.className)) {
+      main.removeChild(messageElement);
+    }
   };
 };
 
@@ -20,11 +23,27 @@ const popupEscKeydown = (element) => {
   };
 };
 
-const successEvents = () => {
-  const successMessage = main.querySelector('.success');
+const messageEvents = (messageElement) => {
 
-  document.addEventListener('keydown', popupEscKeydown(successMessage));
-  successMessage.addEventListener('click', closePopup(successMessage));
+  if (messageElement.className === 'error') {
+    const button = messageElement.querySelector('.error__button');
+    button.addEventListener('click', closePopup(messageElement));
+  }
+
+  messageElement.addEventListener('click', closePopup(messageElement));
+  document.addEventListener('keydown', popupEscKeydown(messageElement), {once: true});
 };
 
-export {successEvents};
+const popupMessage = (responsStatus) => {
+  let message = '';
+
+  if (responsStatus) {
+    message = showSuccessMessage();
+  } else {
+    message = showErrorMessage();
+  }
+
+  messageEvents(message);
+};
+
+export {popupMessage};

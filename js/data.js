@@ -14,22 +14,20 @@ const getData = (url, onSuccess, onFail) => {
     });
 };
 
-const sendData = (url, onSuccess, onFail, body) => {
+const sendData = (url, popupMessage, onFail, body, defaulReset) => {
   fetch(url, {
     method: 'POST',
     body,
   })
     .then((response) => {
       if (response.ok) {
-        console.log(1);
-        onSuccess();
+        popupMessage(response.ok);
+        defaulReset();
       } else {
-        console.log(2);
-        onFail();
+        popupMessage();
       }
     })
     .catch(() => {
-      console.log(3);
       onFail();
     });
 };

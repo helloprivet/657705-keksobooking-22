@@ -30,17 +30,21 @@ const showAlert = (message) => {
 };
 
 const showSuccessMessage = () => {
-  const templateClone = successTemplate.cloneNode(true)
+  const templateClone = successTemplate.cloneNode(true);
   const main = document.querySelector('main');
 
   main.appendChild(templateClone);
-}
+
+  return templateClone;
+};
 
 const showErrorMessage = () => {
-  const templateClone = errorTemplate.cloneNode(true)
+  const templateClone = errorTemplate.cloneNode(true);
   const main = document.querySelector('main');
 
   main.appendChild(templateClone);
-}
+
+  return templateClone;
+};
 
 export {showAlert, showSuccessMessage, showErrorMessage};
