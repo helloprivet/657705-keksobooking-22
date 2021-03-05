@@ -14,8 +14,9 @@ getData(DATA_URL,
   (offers) => {
     const render = renderSimilarOffersList(offers);
     render();
-
-    changeMapFilters(() => render());
+    changeMapFilters(
+      _.debounce(() => render(), 500),
+    );
   },
   () => {
     showAlert('Не удалось получить данные с сервера');
