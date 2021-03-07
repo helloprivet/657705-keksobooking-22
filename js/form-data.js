@@ -132,6 +132,18 @@ const sendUserFormData = (url, popupMessage, onFail) => {
   });
 };
 
+const titleValid = (cb) => {
+  userFormTitle.addEventListener('input', (evt) => {
+    evt.target.setCustomValidity(' ');
+    cb(evt);
+  });
+};
+
+titleValid(_.debounce(
+  (evt) => {
+    validation(titleValidRules)(evt);
+  }, 500));
+
 mainPin.on('moveend', changeAddress(mainPin));
 userFormType.addEventListener('change', changeTypePrice);
 userFormPrice.addEventListener('focus', validation(priceValidRules));
@@ -139,7 +151,7 @@ userFormPrice.addEventListener('input', validation(priceValidRules));
 userFormTimein.addEventListener('change', changeTimeInOut);
 userFormTimeout.addEventListener('change', changeTimeInOut);
 userFormTitle.addEventListener('focus', validation(titleValidRules));
-userFormTitle.addEventListener('input', validation(titleValidRules));
+// userFormTitle.addEventListener('input', validation(titleValidRules));
 userFormRoomNumber.addEventListener('change', changeCapacityNumber);
 userFormResetBtn.addEventListener('click', defaultInputs);
 

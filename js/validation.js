@@ -82,6 +82,8 @@ const validationFunctions = {
 
 const validation = (obj) => {
   return (evt) => {
+    evt.target.setCustomValidity('');
+
     let validValue = {};
     let messages = [];
     const parameters = validationParameters(obj);
