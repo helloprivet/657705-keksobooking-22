@@ -47,4 +47,14 @@ const showErrorMessage = () => {
   return templateClone;
 };
 
-export {showAlert, showSuccessMessage, showErrorMessage};
+const showImg = () => {
+  const container = document.createElement('img');
+  const img = container.cloneNode(true);
+
+  img.width = 70;
+  img.height = 70;
+
+  return img;
+}
+
+export {showAlert, showSuccessMessage, showErrorMessage, showImg};

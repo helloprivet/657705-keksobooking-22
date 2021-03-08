@@ -1,5 +1,3 @@
-'use strict';
-
 const offerTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
@@ -49,6 +47,12 @@ const createOfferTemplate = (obj) => {
   offerElement.querySelector('.popup__photos').appendChild(photoFragment);
 
   offerElement.querySelector('.popup__avatar').src = author.avatar;
+
+  offerElement.childNodes.forEach((value) => {
+    if (!value.firstChild && value.className !== 'popup__avatar' && value.localName !== undefined) {
+      offerElement.removeChild(value);
+    }
+  });
 
   return offerElement;
 };

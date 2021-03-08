@@ -65,7 +65,7 @@ const inputValue = (evt, obj) => {
   for (let key in obj) {
     switch (key) {
       case 'maxValue':
-        validValue[key] = evt.target.value >= 1000000;
+        validValue[key] = evt.target.value >= obj[key];
         break;
     }
   }
@@ -82,7 +82,6 @@ const validationFunctions = {
 
 const validation = (obj) => {
   return (evt) => {
-    evt.target.setCustomValidity('');
 
     let validValue = {};
     let messages = [];

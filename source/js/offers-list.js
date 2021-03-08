@@ -32,6 +32,7 @@ const renderSimilarOffersList = (similarOffers) => {
     }
 
     similarOffers.slice().sort(sortOffers);
+
     similarOffers.forEach((value) => {
       if (value.rank > 0) {
         similarOffersByRank.push(value);

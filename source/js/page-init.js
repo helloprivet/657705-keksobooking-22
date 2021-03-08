@@ -1,6 +1,7 @@
-'use strict';
+/* global L:readonly */
 
 import {mapInit} from './map.js';
+import {renderData} from './get-data.js';
 
 const MAP_CANVAS = 'map-canvas';
 
@@ -33,13 +34,13 @@ formCapacityOption.forEach((item) => {
 
 const map = mapInit(MAP_CANVAS);
 if (map._loaded) {
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(map);
+
   adForm.classList.remove('ad-form--disabled');
   formFieldsets.forEach((value) => {
-    value.disabled = false;
-  });
-
-  mapFilters.classList.remove('ad-form--disabled');
-  filtersSelect.forEach((value) => {
     value.disabled = false;
   });
 
@@ -55,6 +56,8 @@ if (map._loaded) {
 
   formAddress.value = '35.65283, 139.83947';
   filterFeatures.disabled = false;
+
+  renderData();
 }
 
 export {map};
