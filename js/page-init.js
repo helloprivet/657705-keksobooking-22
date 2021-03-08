@@ -1,6 +1,7 @@
 'use strict';
 
 import {mapInit} from './map.js';
+import {renderData} from './get-data.js';
 
 const MAP_CANVAS = 'map-canvas';
 
@@ -38,11 +39,6 @@ if (map._loaded) {
     value.disabled = false;
   });
 
-  mapFilters.classList.remove('ad-form--disabled');
-  filtersSelect.forEach((value) => {
-    value.disabled = false;
-  });
-
   formRoomNumberOption.forEach((item) => {
     if (item.selected) {
       formCapacityOption.forEach((value) => {
@@ -55,6 +51,8 @@ if (map._loaded) {
 
   formAddress.value = '35.65283, 139.83947';
   filterFeatures.disabled = false;
+
+  renderData();
 }
 
 export {map};

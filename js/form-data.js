@@ -4,6 +4,8 @@ import {map} from './page-init.js';
 import {createMarker} from './map.js';
 import {validation} from './validation.js';
 import {sendData} from './data.js';
+import {showImg} from './utils.js';
+import {renderData} from './get-data.js';
 
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
@@ -41,6 +43,13 @@ const userFormTimein = userForm.querySelector('#timein');
 const userFormTimeout = userForm.querySelector('#timeout');
 const userFormAddress = userForm.querySelector('#address');
 const userFormTitle = userForm.querySelector('#title');
+
+const userFormAvatarChooser = userForm.querySelector('.ad-form-header__input');
+const userFormAvatarPreview = userForm.querySelector('.ad-form-header__preview img');
+const userFormAvatarDefault = userFormAvatarPreview.src;
+
+const userFormImageChooser = userForm.querySelector('.ad-form__upload input[type=file]');
+const userFormImagePreview = userForm.querySelector('.ad-form__photo');
 
 const userFormRoomNumber = userForm.querySelector('#room_number');
 
@@ -114,6 +123,45 @@ const defaultInputs = (evt = false) => {
   });
 
   changeAddress(mainPin)();
+
+  userFormAvatarPreview.src = userFormAvatarDefault;
+
+  while (userFormImagePreview.firstChild) {
+    userFormImagePreview.removeChild(userFormImagePreview.firstChild);
+  }
+
+  renderData();
+};
+
+const previewImage = (preview, customImage = false) => {
+  const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  let customPreview = preview;
+
+  return (evt) => {
+    const file = evt.target.files[0];
+
+    if (file) {
+      const fileType = file.type;
+
+      if (customImage) {
+        customPreview = preview.appendChild(customImage);
+      }
+
+      const matches = FILE_TYPES.some((it) => {
+        return fileType.includes(it);
+      });
+
+      if (matches) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.addEventListener('load', () => {
+          customPreview.src = reader.result;
+        });
+
+      }
+    }
+  };
 };
 
 const sendUserFormData = (url, popupMessage, onFail) => {
@@ -154,5 +202,7 @@ userFormTitle.addEventListener('focus', validation(titleValidRules));
 // userFormTitle.addEventListener('input', validation(titleValidRules));
 userFormRoomNumber.addEventListener('change', changeCapacityNumber);
 userFormResetBtn.addEventListener('click', defaultInputs);
+userFormAvatarChooser.addEventListener('change', previewImage(userFormAvatarPreview));
+userFormImageChooser.addEventListener('change', previewImage(userFormImagePreview, showImg()));
 
 export {sendUserFormData};
