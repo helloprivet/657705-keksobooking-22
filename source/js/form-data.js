@@ -200,7 +200,6 @@ userFormPrice.addEventListener('input', validation(priceValidRules));
 userFormTimein.addEventListener('change', changeTimeInOut);
 userFormTimeout.addEventListener('change', changeTimeInOut);
 userFormTitle.addEventListener('focus', validation(titleValidRules));
-// userFormTitle.addEventListener('input', validation(titleValidRules));
 userFormRoomNumber.addEventListener('change', changeCapacityNumber);
 userFormResetBtn.addEventListener('click', defaultInputs);
 userFormAvatarChooser.addEventListener('change', previewImage(userFormAvatarPreview));
