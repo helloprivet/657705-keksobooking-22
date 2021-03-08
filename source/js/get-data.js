@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {getData} from './data.js';
 import {renderSimilarOffersList} from './offers-list.js';
 import {changeMapFilters} from './map-filters.js';

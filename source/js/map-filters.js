@@ -1,6 +1,6 @@
 const mapFilters = document.querySelector('.map__filters');
 
-const priceFilter = {
+const priceFilters = {
   middle: (price) => {
     return price >= 10000 && price <= 50000;
   },
@@ -15,7 +15,7 @@ const priceFilter = {
 };
 
 const customFilters = {
-  price: priceFilter,
+  price: priceFilters,
 };
 
 const getOfferRank = (obj) => {

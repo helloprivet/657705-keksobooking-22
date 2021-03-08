@@ -1,5 +1,6 @@
 /* global L:readonly */
 
+import _ from 'lodash';
 import {map} from './page-init.js';
 import {createMarker} from './map.js';
 import {validation} from './validation.js';
