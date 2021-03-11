@@ -3,7 +3,7 @@
 import _ from 'lodash';
 import {map} from './page-init.js';
 import {createMarker} from './map.js';
-import {validation} from './validation.js';
+import {makeValidation} from './makeValidation.js';
 import {sendData} from './data.js';
 import {showImg} from './utils.js';
 import {renderData} from './get-data.js';
@@ -37,6 +37,8 @@ const priceValidRules = {
   maxValue: 1000000,
 };
 
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
 const userForm = document.querySelector('.ad-form');
 const userFormType = userForm.querySelector('#type');
 const userFormPrice = userForm.querySelector('#price');
@@ -69,12 +71,12 @@ const changeAddress = (mainPin) => {
   };
 };
 
-const changeTypePrice = (evt) => {
+const onTypeChange = (evt) => {
   userFormPrice.placeholder = typeMinPrice[evt.target.value];
   userFormPrice.min = typeMinPrice[evt.target.value];
 };
 
-const changeTimeInOut = (evt) => {
+const onTimeInOutChange = (evt) => {
   switch (evt.target.name) {
     case userFormTimein.name:
       userFormTimeout.value = evt.target.value;
@@ -85,7 +87,7 @@ const changeTimeInOut = (evt) => {
   }
 };
 
-const changeCapacityNumber = (evt) => {
+const onRoomNumberChange = (evt) => {
   const value = evt.target.value;
 
   userFormCapacityOption.forEach((item) => {
@@ -111,7 +113,7 @@ const changeCapacityNumber = (evt) => {
   }
 };
 
-const defaultInputs = (evt = false) => {
+const getDefaultInputs = (evt = false) => {
   if (evt) {
     evt.preventDefault();
   }
@@ -135,7 +137,6 @@ const defaultInputs = (evt = false) => {
 };
 
 const previewImage = (preview, customImage = false) => {
-  const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   let customPreview = preview;
 
   return (evt) => {
@@ -176,7 +177,7 @@ const sendUserFormData = (url, popupMessage, onFail) => {
       },
       () => onFail('Ошибка сервера'),
       new FormData(evt.target),
-      defaultInputs,
+      getDefaultInputs,
     );
   });
 };
@@ -190,18 +191,18 @@ const titleValid = (cb) => {
 
 titleValid(_.debounce(
   (evt) => {
-    validation(titleValidRules)(evt);
+    makeValidation(titleValidRules)(evt);
   }, 500));
 
 mainPin.on('moveend', changeAddress(mainPin));
-userFormType.addEventListener('change', changeTypePrice);
-userFormPrice.addEventListener('focus', validation(priceValidRules));
-userFormPrice.addEventListener('input', validation(priceValidRules));
-userFormTimein.addEventListener('change', changeTimeInOut);
-userFormTimeout.addEventListener('change', changeTimeInOut);
-userFormTitle.addEventListener('focus', validation(titleValidRules));
-userFormRoomNumber.addEventListener('change', changeCapacityNumber);
-userFormResetBtn.addEventListener('click', defaultInputs);
+userFormType.addEventListener('change', onTypeChange);
+userFormPrice.addEventListener('focus', makeValidation(priceValidRules));
+userFormPrice.addEventListener('input', makeValidation(priceValidRules));
+userFormTimein.addEventListener('change', onTimeInOutChange);
+userFormTimeout.addEventListener('change', onTimeInOutChange);
+userFormTitle.addEventListener('focus', makeValidation(titleValidRules));
+userFormRoomNumber.addEventListener('change', onRoomNumberChange);
+userFormResetBtn.addEventListener('click', getDefaultInputs);
 userFormAvatarChooser.addEventListener('change', previewImage(userFormAvatarPreview));
 userFormImageChooser.addEventListener('change', previewImage(userFormImagePreview, showImg()));
 

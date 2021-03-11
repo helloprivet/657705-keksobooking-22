@@ -80,7 +80,7 @@ const validationFunctions = {
   maxValue: inputValue,
 };
 
-const validation = (obj) => {
+const makeValidation = (obj) => {
   return (evt) => {
 
     let validValue = {};
@@ -114,4 +114,4 @@ const validation = (obj) => {
   };
 };
 
-export {validation};
+export {makeValidation};

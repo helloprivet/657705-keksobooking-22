@@ -6,8 +6,9 @@ const errorTemplate = document.querySelector('#error')
   .content
   .querySelector('.error');
 
+const ALERT_SHOW_TIME = 5000;
+
 const showAlert = (message) => {
-  const ALERT_SHOW_TIME = 5000;
   const alertContainer = document.createElement('div');
 
   alertContainer.style.zIndex = 100;
