@@ -8,6 +8,8 @@ import {sendData} from './data.js';
 import {showImg} from './utils.js';
 import {renderData} from './get-data.js';
 
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
   iconSize: [56, 56],
@@ -36,8 +38,6 @@ const priceValidRules = {
   required: true,
   maxValue: 1000000,
 };
-
-const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
 const userForm = document.querySelector('.ad-form');
 const userFormType = userForm.querySelector('#type');

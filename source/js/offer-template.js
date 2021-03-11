@@ -1,13 +1,13 @@
-const offerTemplate = document.querySelector('#card')
-  .content
-  .querySelector('.popup');
-
 const OFFERS_TYPES = {
   palace: 'Дворец',
   flat: 'Квартира',
   house: 'Дом',
   bungalow: 'Бунгало',
 };
+
+const offerTemplate = document.querySelector('#card')
+  .content
+  .querySelector('.popup');
 
 const getTypeTranslate = (type) => {
   return Object.keys(OFFERS_TYPES).some((value) => {
