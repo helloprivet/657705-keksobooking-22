@@ -113,7 +113,7 @@ const onRoomNumberChange = (evt) => {
   }
 };
 
-const getDefaultInputs = (evt = false) => {
+const onResetBtnClick = (evt = false) => {
   if (evt) {
     evt.preventDefault();
   }
@@ -177,7 +177,7 @@ const sendUserFormData = (url, popupMessage, onFail) => {
       },
       () => onFail('Ошибка сервера'),
       new FormData(evt.target),
-      getDefaultInputs,
+      onResetBtnClick,
     );
   });
 };
@@ -202,7 +202,7 @@ userFormTimein.addEventListener('change', onTimeInOutChange);
 userFormTimeout.addEventListener('change', onTimeInOutChange);
 userFormTitle.addEventListener('focus', makeValidation(titleValidRules));
 userFormRoomNumber.addEventListener('change', onRoomNumberChange);
-userFormResetBtn.addEventListener('click', getDefaultInputs);
+userFormResetBtn.addEventListener('click', onResetBtnClick);
 userFormAvatarChooser.addEventListener('change', previewImage(userFormAvatarPreview));
 userFormImageChooser.addEventListener('change', previewImage(userFormImagePreview, showImg()));
 
